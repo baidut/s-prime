@@ -70,3 +70,7 @@ Licensed under the [MIT license][license].
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
 [license]: ./LICENSE
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/baidut/s-prime/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
