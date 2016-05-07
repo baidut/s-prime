@@ -65,8 +65,6 @@ Copyright (c) 2016 XXX
 
 Licensed under the [MIT license][license].
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/baidut/s-prime--an-illumination-robust-feature/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 <p align="right"><a href="#top">:arrow_up:</a></p>
 
 [license]: ./LICENSE
