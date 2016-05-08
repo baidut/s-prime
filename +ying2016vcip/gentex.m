@@ -1,6 +1,6 @@
 function gentex
 
-path = ying2016vcip.settings.dataset_path;
+path = ying2016vcip.settings.roma_path;
 title = 'Supplementary Material for Paper 61 \\ Illumination-Robust Approach for Feature-Based Road Detection';
 author = 'Anonymous VCIP Submission';
 
@@ -24,17 +24,17 @@ disp(char(10));
 
 
 dataset = 'roma';
-situation = subfolder(fullfile(path,dataset));
+situation = subfolder(path);
 imagelist = {'img.mov', 'imgnormal.mov', 'imgadvlight.mov', 'imghighcurv.mov'};
 scenarios = {'Normal', 'Adverse Light', 'Curved Road'};
 
-addpath(fullfile(path,dataset)); % call loadlist
+addpath(path); % call loadlist
 
 % disp(['\section{',dataset,'}']);
 disp(['\section{Overall}']);
 n = 1; % 'img.mov' - the list of all the original images
 for m = 1:length(situation)
-    movFile = fullfile(path,dataset,situation{m},imagelist{n});
+    movFile = fullfile(path,situation{m},imagelist{n});
     files = loadlist(movFile);
     disp('\begin{figure}[!h]\centering'); % 
     for i = 1:length(files)
@@ -59,7 +59,7 @@ for n = 2:length(imagelist)
     disp('\begin{figure}[!h]\centering'); % \centering
     
     for m = 1:length(situation)
-		movFile = fullfile(path,dataset,situation{m},imagelist{n});
+		movFile = fullfile(path,situation{m},imagelist{n});
 		files = loadlist(movFile);
 		for i = 1:length(files)
 			[~, name, ~] = fileparts(files{i});
