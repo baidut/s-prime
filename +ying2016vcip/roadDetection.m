@@ -1,4 +1,4 @@
-function h = roadDetection(FILENAME)
+function [h, missL, missM, missR] = roadDetection(FILENAME)
 % ROADDETECTION display road detection result of the image file
 % specified by the string FILENAME. 
 % Based on the static road scene image, the algorithm extract two road 
@@ -9,6 +9,12 @@ function h = roadDetection(FILENAME)
 % (Zhenqiang Ying, Ge Li, Guozhen Tan & Siwei Ma) to appear in VCIP 2016
 % (IEEE International Conference on Visual Communications and Image
 % Processing 2016) conference.
+%
+%  h - handle of figure
+%  missL - left road boundary not found
+%  missM - middle lane making not found
+%  missR - right road bouddary not found
+%
 %
 %   Example
 %   -------
@@ -38,11 +44,11 @@ function h = roadDetection(FILENAME)
     % cBoundaryL/R specify the boundary points of rows below horizon line.
     % thetaSet is the set of possible thetas of lane marking line.
 
-    [rHorizon,cBoundaryL,cBoundaryR,thetaSet] = dtRoadBoundary(ResizedImg);
-    dtLaneMarking(ResizedImg,rHorizon,cBoundaryL,cBoundaryR,thetaSet);
+    [rHorizon,cBoundaryL,cBoundaryR,thetaSet,missL,missR] = dtRoadBoundary(ResizedImg);
+    missM = dtLaneMarking(ResizedImg,rHorizon,cBoundaryL,cBoundaryR,thetaSet);
 end
 
-function [rHorizon, cBoundaryL, cBoundaryR, thetaSet] = dtRoadBoundary(RGB) 
+function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoundary(RGB) 
 %% init params
     [nRow, nCol, nChannel] = size(RGB);
     rSplit = ceil(nRow/3);
@@ -105,7 +111,8 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet] = dtRoadBoundary(RGB)
     imdump(3,houghL,houghR);
     close(houghL,houghR);
 
-    if isempty(lineL)
+    missL = isempty(lineL);
+    if missL
        disp('Fail in left boundary line fitting.');
     else
        thetaMax = ceil(lineL.theta - 20);
@@ -113,7 +120,8 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet] = dtRoadBoundary(RGB)
        hold on, lineL.plot('LineWidth',3,'Color','yellow');
     end
 
-    if isempty(lineR)
+    missR = isempty(lineR);
+    if missR
        disp('Fail in right boundary line fitting.');
     else
        thetaMin = floor(lineR.theta + 20);
@@ -189,7 +197,7 @@ function line = bwFitLine(BW, Theta)
 end
 
 
-function dtLaneMarking(Img,rHorizon,cBoundaryL,cBoundaryR,thetaSet)
+function missM = dtLaneMarking(Img,rHorizon,cBoundaryL,cBoundaryR,thetaSet)
 
 %%  Region of interest adjustment
     %ROI = Img(rHorizon:end,:,1);
@@ -220,7 +228,8 @@ function dtLaneMarking(Img,rHorizon,cBoundaryL,cBoundaryR,thetaSet)
     imdump(3, houghM);
     close(houghM);
     
-    if isempty(line)
+    missM = isempty(line);
+    if missM
         disp('Fail in lane markings detection.');
     else
         PointS = [line.row(1), rHorizon]; % start point

@@ -39,14 +39,30 @@ roma = { str2files([path 'BDXD54\*.' ext]), ...
 % imdump(1, figs{:});
 
 files = [roma{:}];
+N = numel(files);
+missL = false(N,1);
+missM = false(N,1);
+missR = false(N,1);
+falseL = false(N,1);
+falseM = false(N,1);
+falseR = false(N,1);
+name = cell(N,1);
+situations = cell(N,1);
 
-for ii = 1 : length(files)
-    fprintf('Processing:%s...\n',files{ii});
-	fig = ying2016vcip.roadDetection(files{ii});
-    db.imdumpd(1, fig);
+for n = 1 : N
+    fprintf('Processing:%s...\n',files{n});
+    [path,name{n},~] = fileparts(files{n});
+    C = strsplit(path, '\');
+    situations{n} = C{end};
+	[fig, missL(n), missM(n), missR(n)]  = ying2016vcip.roadDetection(files{n});
+    db.imdumpd(1, fig); 
     close(fig);
 end
 
+%% table
+t = table(name, missL, missM, missR, falseL, falseM, falseR, situations);
+writetable(t, 'eval.csv','Delimiter',',','QuoteStrings',true);
+ 
 %%
 text = evalc('ying2016vcip.gentex');
 fid = fopen('results/evaluation.tex','w');
