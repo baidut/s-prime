@@ -5,8 +5,14 @@
 %
 % Email: yinzhenqiang # gmail.com
 % Website: https://github.com/baidut/openvehiclevision
+function demo(method)
 
-mkdir('results');
+if nargin < 1
+   method = 'ours'; 
+end
+
+folder = ['results-' method];
+mkdir(folder);
 
 global db;
 
@@ -14,7 +20,7 @@ db = exDebugger(...
     'saveAsEps','true',...
     'nameFunc',@(x)x.Name,...
     'level',1,...
-    'path','.\results'...
+    'path',folder...
 );
 
 path = ying2016vcip.settings.roma_path;
@@ -32,7 +38,7 @@ falseR = false(N,1);
 
 for n = 1 : N
     fprintf('Processing:%s...\n',files{n});
-	[fig, missL(n), missM(n), missR(n)]  = ying2016vcip.roadDetection(files{n});
+	[fig, missL(n), missM(n), missR(n)]  = ying2016vcip.roadDetection(files{n}, method);
     db.imdumpd(1, fig); 
     close(fig);
 end
@@ -44,10 +50,13 @@ scenario = roma.data.scenario;
 
 t = table(name, missL, missM, missR, falseL, falseM, falseR, ...
     situation, scenario);
-writetable(t, 'eval.csv','Delimiter',',','QuoteStrings',true);
+writetable(t, ['eval-' method '.csv'],'Delimiter',',','QuoteStrings',true);
  
 %%
 text = evalc('ying2016vcip.gentex');
-fid = fopen('results/evaluation.tex','w');
+file = fullfile(folder,'evaluation.tex');
+fid = fopen(file,'w');
 fprintf(fid, '%s', text);
 fclose(fid);
+
+end

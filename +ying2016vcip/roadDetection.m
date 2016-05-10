@@ -1,4 +1,4 @@
-function [h, missL, missM, missR] = roadDetection(FILENAME)
+function [h, missL, missM, missR] = roadDetection(FILENAME, method)
 % ROADDETECTION display road detection result of the image file
 % specified by the string FILENAME. 
 % Based on the static road scene image, the algorithm extract two road 
@@ -24,11 +24,11 @@ function [h, missL, missM, missR] = roadDetection(FILENAME)
 %
 %   Project website: https://github.com/baidut/openvehiclevision
 %   Copyright 2015 Zhenqiang Ying.
-
+    
 	[~,name,~] = fileparts(FILENAME);
     h = figure('NumberTitle', 'off', 'Name', name);
     
-    disp(['Processing: ' name]);
+    %disp(['Processing: ' name]);
     
     RawImg = imread(FILENAME);
     %BlurImg = imgaussfilt(RawImg, 2);
@@ -44,18 +44,17 @@ function [h, missL, missM, missR] = roadDetection(FILENAME)
     % cBoundaryL/R specify the boundary points of rows below horizon line.
     % thetaSet is the set of possible thetas of lane marking line.
 
-    [rHorizon,cBoundaryL,cBoundaryR,thetaSet,missL,missR] = dtRoadBoundary(ResizedImg);
+    [rHorizon,cBoundaryL,cBoundaryR,thetaSet,missL,missR] = dtRoadBoundary(ResizedImg, method);
     missM = dtLaneMarking(ResizedImg,rHorizon,cBoundaryL,cBoundaryR,thetaSet);
 end
 
-function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoundary(RGB) 
+function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoundary(RGB, method) 
 %% init params
     [nRow, nCol, nChannel] = size(RGB);
     rSplit = ceil(nRow/3);
     cSplit = ceil(nCol/2);
 
-    thetaMin = -75;
-    thetaMax = 75;
+    thetaRange = [15 75];
 
     if nChannel ~= 3
         disp('Color image is needed for road boundary detection.');
@@ -68,14 +67,28 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoun
     nRowRoi = size(ROI, 1);
     
     % Image gray value conversion - S2 feature extraction
-    B = ROI(:,:,3);
-    V = max(ROI,[],3);
-
-    S2 = double(V - B) ./ double(V + 1);
+    switch lower(method)
+        case {'ours','s2','s-prime'}
+            B = ROI(:,:,3);
+            V = max(ROI,[],3);
+            feature = double(V - B) ./ double(V + 1); % S2
+        case 'y'
+            feature = 1-rgb2gray(im2double(ROI));
+            % so that the road face is darker than vegetation
+        case 'h'
+            hsv = rgb2hsv(ROI);
+            feature = hsv(:,:,1);
+        case 's'
+            hsv = rgb2hsv(ROI);
+            feature = hsv(:,:,2);
+        otherwise
+            error('unknown feature extractor.');
+    end
+    
 
     %% Image segmentation
     % Filter out lane markings and objects
-    Filtered = medfilt2(S2, [1, 10]);
+    Filtered = medfilt2(feature, [1, 10]);
     S2_BW = im2bw(Filtered, graythresh(Filtered(Filtered>mean(Filtered(:)))));
   
     Boundaries = S2_BW; %S2_BW&(~LaneMarking);
@@ -100,22 +113,26 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoun
         BoundaryR(r, c2) = 1;
     end
 
-    imdump(3, S2, S2_BW, Boundaries, Candidate, BoundaryL, BoundaryR);
+    imdump(3, feature, S2_BW, Boundaries, Candidate, BoundaryL, BoundaryR);
 
 %% Road boundary model fitting
     houghL = figure;
-    lineL = bwFitLine(BoundaryL, 0:thetaMax);
+    lineL = bwFitLine(BoundaryL, thetaRange);
     houghR = figure;
-    lineR = bwFitLine(BoundaryR, thetaMin:0);
+    lineR = bwFitLine(BoundaryR, -thetaRange);
     
     imdump(3,houghL,houghR);
     close(houghL,houghR);
+    
+    thetaRight = thetaRange(2);
+    thetaLeft = -thetaRange(2);
 
     missL = isempty(lineL);
     if missL
        disp('Fail in left boundary line fitting.');
     else
-       thetaMax = ceil(lineL.theta - 20);
+       thetaRight = floor(lineL.theta - 20);
+       thetaRight = max(thetaRight, thetaRange(1));
        lineL.move([0, rSplit]);
        hold on, lineL.plot('LineWidth',3,'Color','yellow');
     end
@@ -124,12 +141,13 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoun
     if missR
        disp('Fail in right boundary line fitting.');
     else
-       thetaMin = floor(lineR.theta + 20);
+       thetaLeft = floor(lineR.theta + 20);
+       thetaLeft = min(thetaLeft, -thetaRange(1));
        lineR.move([cSplit, rSplit]);
        hold on, lineR.plot('LineWidth',3,'Color','green');
     end
 
-    thetaSet = thetaMin:thetaMax;
+    thetaSet = thetaLeft:thetaRight;
     
     if ~isempty(lineL) && ~isempty(lineR)
         PointO = lineL.cross(lineR);

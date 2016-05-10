@@ -52,8 +52,9 @@ Code will be released soon!
 
 ## Setup
 
-1. Open file `settings.m` and specify your folder containing roma dataset.
-2. run `demo.m` in Matlab.
+1. Open Matlab and `cd you_path`
+1. run `edit ying2016vcip.settings` to open file `+ying2016vcip/settings.m` and specify your folder containing roma dataset.
+2. run `ying2016vcip.demo`.
 
 ## Acknowledgment 
 
