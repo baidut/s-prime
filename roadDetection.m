@@ -5,10 +5,9 @@ function [h, missL, missM, missR] = roadDetection(FILENAME, method)
 % boundaries and middle lane-marking using straight line model.
 %
 % This code is the implementation of the approach proposed in the paper 
-% Illumination-Robust Approach for Feature-Based Road Detection
-% (Zhenqiang Ying, Ge Li, Guozhen Tan & Siwei Ma) to appear in VCIP 2016
-% (IEEE International Conference on Visual Communications and Image
-% Processing 2016) conference.
+% An Illumination-Robust Approach for Feature-Based Road Detection
+% (Zhenqiang Ying, Ge Li, Guozhen Tan) in 
+% 2015 IEEE International Symposium on Multimedia (ISM).
 %
 %  h - handle of figure
 %  missL - left road boundary not found
@@ -25,7 +24,7 @@ function [h, missL, missM, missR] = roadDetection(FILENAME, method)
 %      figs = foreach_file_do(roma_BDXD54, @roadDetection);
 %
 %   Project website: https://github.com/baidut/openvehiclevision
-%   Copyright 2015 Zhenqiang Ying.
+%   Copyright 2015-2016 Zhenqiang Ying.
 
 	[~,name,~] = fileparts(FILENAME);
     h = figure('NumberTitle', 'off', 'Name', name);
