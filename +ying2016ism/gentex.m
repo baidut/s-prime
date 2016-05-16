@@ -1,8 +1,8 @@
 function gentex
 
-path = ying2016vcip.settings.roma_path;
-title = 'Supplementary Material for Paper 61 \\ Illumination-Robust Approach for Feature-Based Road Detection';
-author = 'Anonymous VCIP Submission';
+path = ying2016ism.settings.roma_path;
+title = 'Supplementary Material for Paper \\ An Illumination-Robust Approach for Feature-Based Road Detection';
+author = 'Zhenqiang Ying, Ge Li and Guozhen Tan';
 
 
 %% gen '.tex' file automatically

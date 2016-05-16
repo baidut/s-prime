@@ -8,7 +8,7 @@
 function demo(method)
 
 if nargin < 1
-   method = 'ours'; 
+   method = 'ours';  % 'y', 'h','s', 'ours'
 end
 
 folder = ['results-' method];
@@ -23,8 +23,8 @@ db = exDebugger(...
     'path',folder...
 );
 
-path = ying2016vcip.settings.roma_path;
-roma = RomaDataset(ying2016vcip.settings.roma_path);
+path = ying2016ism.settings.roma_path;
+roma = RomaDataset(ying2016ism.settings.roma_path);
 
 files = roma.data.filename;
 
@@ -38,7 +38,7 @@ falseR = false(N,1);
 
 for n = 1 : N
     fprintf('Processing:%s...\n',files{n});
-	[fig, missL(n), missM(n), missR(n)]  = ying2016vcip.roadDetection(files{n}, method);
+	[fig, missL(n), missM(n), missR(n)]  = ying2016ism.roadDetection(files{n}, method);
     db.imdumpd(1, fig); 
     close(fig);
 end
@@ -53,7 +53,7 @@ t = table(name, missL, missM, missR, falseL, falseM, falseR, ...
 writetable(t, ['eval-' method '.csv'],'Delimiter',',','QuoteStrings',true);
  
 %%
-text = evalc('ying2016vcip.gentex');
+text = evalc('ying2016ism.gentex');
 file = fullfile(folder,'evaluation.tex');
 fid = fopen(file,'w');
 fprintf(fid, '%s', text);

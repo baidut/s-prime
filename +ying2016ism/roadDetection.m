@@ -15,6 +15,8 @@ function [h, missL, missM, missR] = roadDetection(FILENAME, method)
 %  missM - middle lane making not found
 %  missR - right road bouddary not found
 %
+%  method - string, specify the road feature extractor
+%
 %
 %   Example
 %   -------
@@ -24,7 +26,7 @@ function [h, missL, missM, missR] = roadDetection(FILENAME, method)
 %
 %   Project website: https://github.com/baidut/openvehiclevision
 %   Copyright 2015 Zhenqiang Ying.
-    
+
 	[~,name,~] = fileparts(FILENAME);
     h = figure('NumberTitle', 'off', 'Name', name);
     
@@ -54,7 +56,7 @@ function [rHorizon, cBoundaryL, cBoundaryR, thetaSet, missL, missR] = dtRoadBoun
     rSplit = ceil(nRow/3);
     cSplit = ceil(nCol/2);
 
-    thetaRange = [15 75];
+    thetaRange = 15:75;
 
     if nChannel ~= 3
         disp('Color image is needed for road boundary detection.');
