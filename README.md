@@ -58,8 +58,8 @@ Code for the [ISM 2015](http://www.ieeeism.com/) paper "Illumination-Robust Appr
 
 ## Installation
 
-1. Download [roma dataset](http://www.lcpc.fr/english/products/image-databases/article/roma-road-markings-1817).
-2. Download [latest released code](/releases/) .
+1. Download roma dataset from [official website](http://www.lcpc.fr/english/products/image-databases/article/roma-road-markings-1817) or [baiduyun](http://yun.baidu.com/share/link?shareid=1552701070&uk=1863129434) `OpenVehicleVision/datasets/ROMA/roma.zip`.
+2. Download [latest released code](https://github.com/baidut/s-prime/releases) .
 
 ## Setup
 
