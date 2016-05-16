@@ -29,44 +29,55 @@
 [![](http://img.shields.io/badge/license-MIT-blue.svg)][license]
 [![](https://img.shields.io/badge/MATLAB-R2015a-green.svg)](#)
 [![](https://img.shields.io/badge/platform-Windows10-green.svg)](#)
-[![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg?maxAge=2592000)]()
+<!--[![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg?maxAge=2592000)]()-->
 <!-- [![](https://voting-badge.herokuapp.com/img?url=https://github.com/b4b4r07/dotfiles)][vote] -->
 <!-- [![](https://img.shields.io/badge/documentation-etc-red.svg)][doc] -->
 
 ## Overview
 
-Code for the [VCIP 2016](http://vcip2016.org/) paper "Illumination-Robust Approach for Feature-Based Road Detection" 
+Code for the [ISM 2015](http://www.ieeeism.com/) paper "Illumination-Robust Approach for Feature-Based Road Detection" 
+( ieeexplore 
+[paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=7442341)
+[html](http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=7442341)
+[pdf](http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7442341)
+)
 
 ## Citation
 
-The paper is under the review process.
+    @INPROCEEDINGS{7442341, 
+    author={Z. Ying and G. Li and G. Tan}, 
+    booktitle={2015 IEEE International Symposium on Multimedia (ISM)}, 
+    title={An Illumination-Robust Approach for Feature-Based Road Detection}, 
+    year={2015}, 
+    pages={278-281}, 
+    keywords={feature extraction;image colour analysis;intelligent transportation systems;cast shadows;feature-based method;grayscale image;illumination-related effects;input color image;intelligent vehicle systems;lane-marking detection;road boundary lines;road detection algorithms;Feature extraction;Gray-scale;Image color analysis;Image edge detection;Lighting;Roads;Transforms;image processing;intelligent vehicle systems;lane detection;road detection}, 
+    doi={10.1109/ISM.2015.46}, 
+    month={Dec},}
 
 <!-- ## Contributions -->
 
 ## Installation
-
-Code will be released soon!
 
 1. Download [roma dataset](http://www.lcpc.fr/english/products/image-databases/article/roma-road-markings-1817).
 2. Download [latest released code](/releases/) .
 
 ## Setup
 
-1. Open Matlab and `cd you_path`
-1. run `edit ying2016vcip.settings` to open file `+ying2016vcip/settings.m` and specify your folder containing roma dataset.
-2. run `ying2016vcip.demo`.
+1. Open Matlab and `cd you_path` e.g. `cd E:\Documents\MATLAB\s-prime`
+1. run `edit ying2016ism.settings` to open file `+ying2016ism/settings.m` and specify your folder containing roma dataset.
+2. run `ying2016ism.demo`.
 
 ## Acknowledgment 
 
-This project was supported by XXX. (Not available for a Double Blind review process.)
+This project was supported by Shenzhen Peacock Plan (20130408-183003656), and by Science and Technology Planning Project of Guangdong Province, China (No. 2014B090910001).
 
 ## License
 
-Copyright (c) 2016 XXX
+Copyright (c) 2015-2016 Zhenqiang Ying
 
 Licensed under the [MIT license][license].
 
-<p align="right"><a href="#top">:arrow_up:</a></p>
+<p align="right"><a href="#top">:arrow_up: back to top</a></p>
 
 [license]: ./LICENSE
 
