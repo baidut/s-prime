@@ -27,7 +27,7 @@
 <!-- https://img.shields.io/badge/color-brightgreen-brightgreen.svg?maxAge=2592000 -->
 
 [![](http://img.shields.io/badge/license-MIT-blue.svg)][license]
-[![](https://img.shields.io/badge/MATLAB-R2015a-green.svg)](#)
+[![](https://img.shields.io/badge/MATLAB-R2015*|R2014a-green.svg)](#)
 [![](https://img.shields.io/badge/platform-Windows10-green.svg)](#)
 <!--[![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg?maxAge=2592000)]()-->
 <!-- [![](https://voting-badge.herokuapp.com/img?url=https://github.com/b4b4r07/dotfiles)][vote] -->
@@ -63,9 +63,12 @@ Code for the [ISM 2015](http://www.ieeeism.com/) paper "Illumination-Robust Appr
 
 ## Setup
 
+    ./roma              % roma dataset
+    ./roadDetection.m   % main algorithm
+    ./demo.m
+    
 1. Open Matlab and `cd you_path` e.g. `cd E:\Documents\MATLAB\s-prime`
-1. run `edit ying2016ism.settings` to open file `+ying2016ism/settings.m` and specify your folder containing roma dataset.
-2. run `ying2016ism.demo`.
+2. Run `demo`. (or `demo method roma_dataset_path` e.g. `demo ours E:\Documents\MATLAB\s-prime\roma` ), then the detection results will be displayed and be stored to subfolder `.\result-*`, after processing all the result, an evaluation report will be generated automatically in latex, see `.\result-*\evaluation.tex` 
 
 ## Acknowledgment 
 
