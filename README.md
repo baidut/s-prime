@@ -63,11 +63,13 @@ Code for the [ISM 2015](http://www.ieeeism.com/) paper "Illumination-Robust Appr
 
 ## Setup
 
+    ./add_to_path       % required libraries
     ./roma              % roma dataset
     ./roadDetection.m   % main algorithm
     ./demo.m
     
 1. Open Matlab and `cd you_path` e.g. `cd E:\Documents\MATLAB\s-prime`
+2. Add `add_to_path` to matlab path.
 2. Run `demo`. (or `demo method roma_dataset_path` e.g. `demo ours E:\Documents\MATLAB\s-prime\roma` ), then the detection results will be displayed and be stored to subfolder `.\result-*`, after processing all the result, an evaluation report will be generated automatically in latex, see `.\result-*\evaluation.tex` 
 
 ## Acknowledgment 
